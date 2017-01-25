@@ -26,4 +26,5 @@ And start playing, let us see where you come up with; controlling karts, vacuum 
 
 
 |SET_TYPE|TYPE|C0|C1|C2|C3|END_MESSAGE|
+|--|--|--|--|--|--|--|
 |'S'|0|..|..|..|..|'\n'|
