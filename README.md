@@ -17,6 +17,7 @@ And start playing, let us see where you come up with; controlling karts, vacuum 
 
 ## Protocol description
 
+### Pre-defined bytes
 
 | Function      | ASCII         | Dec   | Description |
 | ------------- |:-------------:| -----:|:---|
@@ -24,22 +25,25 @@ And start playing, let us see where you come up with; controlling karts, vacuum 
 | Set type      | 'T'           | 84    |Set the type and code to use when switching|
 | End message   | '\n'          | 84    |end a message|
 
+### Sending messages to recievers
+
 |SET_RECIEVER|CHANNEL|STATE|END_MESSAGE|
 |:---    |:---  |:---|:--         |
 |'S'     |'0'   |'1' |'\n'       |
 
-### Channel
+#### Channel
 This is the channel on the remote usually (0,1,2,3)
 
-### State
+#### State
 The state of the remoteSwitch (0,1)
 
+### Setting the type and code of the 'virtual' remote
 
 |SET_TYPE|TYPE|C0|C1|C2|C3|END_MESSAGE|
 |:---      |:---  |:---|:----|:---|:---|:---         |
 |'T'     |0   |..|..|..|..|'\n'       |
 
-### Type
+#### Type
 This is the code of the type that is being used
 
 | Code | Type | URL |
