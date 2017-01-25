@@ -18,13 +18,16 @@ And start playing, let us see where you come up with; controlling karts, vacuum 
 ## Protocol description
 
 
-| Function      | ASCII         | Dec   |
-| ------------- |:-------------:| -----:|
-| Set type      | 'S'           | 83    |
-| Set reciever  | 'T'           | 84    |
-| End message   | '\n'          | 84    |
+| Function      | ASCII         | Dec   | Description |
+| ------------- |:-------------:| -----:|:---|
+| Set reciever  | 'S'           | 83    |Set the status of a certain switch|
+| Set type      | 'T'           | 84    |Set the type and code to use when switching|
+| End message   | '\n'          | 84    |end a message|
 
+|SET_RECIEVER|CHANNEL|STATE|END_MESSAGE|
+|:---    |:---  |:---|:--         |
+|'S'     |'0'   |'1' |'\n'       |
 
 |SET_TYPE|TYPE|C0|C1|C2|C3|END_MESSAGE|
 |:---      |:---  |:---|:----|:---|:---|:---         |
-|'S'     |0   |..|..|..|..|'\n'       |
+|'T'     |0   |..|..|..|..|'\n'       |
