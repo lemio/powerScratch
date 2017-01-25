@@ -14,3 +14,11 @@ Go to:
 http://scratchx.org/?url=https://lemio.github.io/powerScratch/powerScratch_extension.js
 
 And start playing, let us see where you come up with; controlling karts, vacuum cleaners, your coffee machine, traffic lights...
+
+## Protocol description
+
+
+| Function      | ASCII         | Dec   |
+| ------------- |:-------------:| -----:|
+| Set type      | S             | 83    |
+| Set reciever  | T             | 84    |
