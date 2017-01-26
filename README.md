@@ -7,7 +7,7 @@ Program the Arduino
 
 Solder/make the connection to a 433Mhz module
 
-(Check your unique code off your reciever (this can be done by using a reciever and [this sketch], or ask your teacher/supplier))
+(Check your unique code of your remote (this can be done by using a reciever and [this sketch], or ask your teacher/supplier))
 
 Go to:
 
