@@ -49,3 +49,17 @@ This is the code of the type that is being used
 | Code | Type | URL |
 |:---|:---|:---|
 |0|KlikAanKlikuit|[Gamma.nl](https://www.gamma.nl/assortiment/klikaanklikuit-schakelset-apa3-1500r/p/B364802?q=fh_location%3d%2f%2fcatalog01%2fnl_NL%2f%24s%3dklikaanklikuit%2fcategories%3C%7bcatalog01_catverlichting%7d%2ffh_item_type%3E%7bproduct%7d%26fh_start_index%3d0%26fh_view_size%3d20%26fh_refview%3dsearch%26fh_lister_pos%3d1%26date_time%3d20170125T000000%26fh_modification%3d%26fh_sort%3d-online_status%252C-%2524r1%26fh_secondid%3db_product_b021364802)
+
+
+#### Diamant recievers
+
+Aon = 16762196      FFC554  1100010101010100
+Aoff = 16762193     FFC551  1100010101010001
+Bon = 16765268      FFD154  1101000101010100
+Boff = 16765265     FFD151  1101000101010001
+Con = 16766036      FFD454  
+Coff = 16766033     FFD451
+Don = 16766228      FFD514
+Doff = 16766225     FFD511
+Eon = 16766276      FFD544
+Eoff = 16766273     FFD541

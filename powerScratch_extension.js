@@ -9,7 +9,7 @@
     var device = null;
     var rawData = null;
     var stat = false;
-
+    var type = 0;
     var inputArray = [];
 /*
 To display the incoming string in the console
@@ -141,19 +141,62 @@ Function to convert one unsigned long to 4 bytes
 /*
 Set the 'code' and type of the remote
 */
-    ext.setRemote = function(type, code) {
-        var type_code = 0;
+    function send_kaku(adress,state){
+        var pingOn = new Uint8Array([83, 48 + adress, 48 + state, 10]);
+        device.send(pingOn.buffer);
+    }
+    function send_FHT_7901(adress,state){
+        lookup = [[ 16762193
+                ,   16762196],
+                [   16765265,
+                    16765268
+                ],[ 16766033
+                ,   16766036
+                ],[ 16766225
+                ,   16766228
+                ],[ 16766273
+                ,   16766276
+                ]];/*
+        Aon = 16762196      FFC554  1100010101010100
+        Aoff = 16762193     FFC551  1100010101010001
+        Bon = 16765268      FFD154  1101000101010100
+        Boff = 16765265     FFD151  1101000101010001
+        Con = 16766036      FFD454  
+        Coff = 16766033     FFD451
+        Don = 16766228      FFD514
+        Doff = 16766225     FFD511
+        Eon = 16766276      FFD544
+        Eoff = 16766273     FFD541
+        */
+        sendRaw(lookup[adress][state],24)
+    }
+    sendRaw = function (code,bit){
+        console.log("send",code)
+        code_bytes = new Uint8Array(toBytesInt32(code));
+        console.log(code_bytes);
+        var pingOn = new Uint8Array([82, bit, code_bytes[0], code_bytes[1], code_bytes[2], code_bytes[3], 10]);
+        device.send(pingOn.buffer);
+
+    }
+    function stringToTypeCode(type_name){
         switch (type) {
             case "KaKu":
-                type_code = 0;
+                return 0;
                 break;
-            case "Blokker":
-                type_code = 1;
+            case "Diamant (FHT-7901)":
+                return 1;
                 break;
             case "Action":
-                type_code = 2;
+                return 2;
                 break;
         }
+        console.log("error");
+        return 0;
+    }
+    ext.setRemote = function(_type, code) {
+        type= _type;
+        var type_code = stringToTypeCode(type);
+        
         //'T',type_code
         code_bytes = new Uint8Array(toBytesInt32(code));
         console.log(code_bytes[0]);
@@ -162,26 +205,35 @@ Set the 'code' and type of the remote
         device.send(pingOn.buffer);
         console.log(pingOn);
     }
+
 /*
 Set the state of the reciever (on/off)
 */
     ext.setState = function(name, val) {
+
         stat = (val == "on") ? 1 : 0;
         name = name - 1;
-
-        console.log(name);
+        switch (type){
+            case "Diamant (FHT-7901)":
+                console.log("set diamant ",name,stat)
+                send_FHT_7901(name,stat);
+            break;
+            case "KaKu":
+                console.log("set KAKU ",name,stat)
+                send_kaku(name,stat);
+            break;
+        }
         //'S','0'+name,'0'+stat,'\n'
-        var pingOn = new Uint8Array([83, 48 + name, 48 + stat, 10]);
-        device.send(pingOn.buffer);
+        
     }
     var descriptor = {
         blocks: [
             [' ', 'Turn switch %n %m.state', 'setState', 1, 'on'],
-            [' ', 'Set remote of %m.type to code %n', 'setRemote', 'KaKu', 20231262]
+            [' ', 'Set remote of %m.type to code %n', 'setRemote', 'Diamant (FHT-7901)', 20231262]
         ],
         menus: {
             state: ['on', 'off'],
-            type: ['KaKu', 'Action', 'Blokker', 'Elro']
+            type: ['Diamant (FHT-7901)','KaKu', 'Action', 'Blokker', 'Elro']
         },
         url: ''
     };

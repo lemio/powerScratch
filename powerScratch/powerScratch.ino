@@ -5,10 +5,14 @@
 @source:               
 
 */
+#include <RCSwitch.h>
 #include <NewRemoteTransmitter.h>
+RCSwitch mySwitch = RCSwitch();
 NewRemoteTransmitter transmitter(0, 4, 260, 3);; 
+
 const byte SET_TYPE = 'T';
 const byte SET_SWITCH = 'S';//83
+const byte SET_RAW = 'R';
 const byte END_MSG = '\n';
 const byte TYPE_KAKU = 0;
 const byte TYPE_BLOKKER = 1;
@@ -17,6 +21,7 @@ const byte TYPE_ELRO = 3;
 const byte TYPE__ = 3;
 const byte RECIEVING_TYPE = 1;
 const byte RECIEVING_SWITCH = 2;
+const byte RECIEVING_RAW = 3;
 byte type = TYPE_KAKU;
 int i=0;
 byte serialBuffer[6];
@@ -35,6 +40,7 @@ void setup() {
   digitalWrite(2,LOW);
   digitalWrite(3,HIGH);
   Serial.begin(57600);
+  mySwitch.enableTransmit(4);
 }
 
 void loop() {
@@ -45,6 +51,10 @@ void loop() {
           i++;
         }
         if (serialStatus == RECIEVING_SWITCH){
+           serialBuffer[i] = readByte;
+           i++;
+        }
+        if (serialStatus == RECIEVING_RAW){
            serialBuffer[i] = readByte;
            i++;
         }
@@ -90,6 +100,27 @@ void loop() {
                     transmitter.sendUnit(serialBuffer[0]-'0',serialBuffer[1]-'0');
                   }
               break;
+              case RECIEVING_RAW:
+              code = 0;
+              code += serialBuffer[1]*pow(2,24);
+              code += serialBuffer[2]*pow(2,16);
+              code += serialBuffer[3]*pow(2,8);
+              code += serialBuffer[4];
+
+                //code = *(2^24) + serialBuffer[2]*(2^16) + serialBuffer[3]*(2^8) + serialBuffer[4];
+                     mySwitch.send(code,serialBuffer[0]);
+                     //transmitter.setAdress(code);
+                     Serial.print("RAW with code [");
+                     Serial.print(serialBuffer[1]);
+                     Serial.print(",");
+                     Serial.print(serialBuffer[2]);
+                     Serial.print(",");
+                     Serial.print(serialBuffer[3]);
+                     Serial.print(",");
+                     Serial.print(serialBuffer[4]);
+                     Serial.print("] = ");
+                     Serial.print(code);
+              break;
             }
           serialStatus = -1;  
           i = 0;
@@ -100,6 +131,10 @@ void loop() {
         }
         if (readByte == SET_SWITCH){
           Serial.print("Set switch ");
+          serialStatus = RECIEVING_SWITCH;
+        }
+        if (readByte == SET_RAW){
+          Serial.print("Set RAW ");
           serialStatus = RECIEVING_SWITCH;
         }
   }
