@@ -1,4 +1,10 @@
+/*
+@title PowerScratch:    Control high voltage devices using scratch.
+@author:                Geert Roumen
+@website:               
+@source:               
 
+*/
 #include <NewRemoteTransmitter.h>
 NewRemoteTransmitter transmitter(0, 4, 260, 3);; 
 const byte SET_TYPE = 'T';
@@ -16,6 +22,7 @@ int i=0;
 byte serialBuffer[6];
 byte serialStatus = -1;
 unsigned long code = 0;
+
 void setup() {
   pinMode(18,OUTPUT);
   pinMode(21,OUTPUT);
@@ -31,13 +38,6 @@ void setup() {
 }
 
 void loop() {
-  
-  /*
-   * 5522773
-   * 5522772
-   */
-   
-    //mySwitch.send(5522772,24)
   while (Serial.available()) {
         byte readByte = Serial.read();
         if (serialStatus == RECIEVING_TYPE){
@@ -102,25 +102,5 @@ void loop() {
           Serial.print("Set switch ");
           serialStatus = RECIEVING_SWITCH;
         }
-    /*
-    if (readByte == 65){
-          transmitter.sendUnit(0, true);
-          digitalWrite(13,HIGH);
-      }else if (readByte == 66){
-          transmitter.sendUnit(0, false);
-          digitalWrite(13,LOW);
-        }else if (readByte == 67){
-          transmitter.sendUnit(1, true);
-          digitalWrite(13,LOW);
-        }else if (readByte == 68){
-          transmitter.sendUnit(1, false);
-          digitalWrite(13,LOW);
-        }*/
   }
-  
-  /*
-  if (mySwitch.available()) {
-    output(mySwitch.getReceivedValue(), mySwitch.getReceivedBitlength(), mySwitch.getReceivedDelay(), mySwitch.getReceivedRawdata(),mySwitch.getReceivedProtocol());
-    mySwitch.resetAvailable();
-  }*/
 }
