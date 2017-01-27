@@ -7,6 +7,11 @@ Program the Arduino
 
 Solder/make the connection to a 433Mhz module
 
+
+[logo]:  https://lemio.github.io/powerScratch/images/powerScratch_3.jpg "KlikAanKlikUit (KAKU)"
+[logo]:  https://lemio.github.io/powerScratch/images/powerScratch_2.jpg "Promax"
+[logo]:  https://lemio.github.io/powerScratch/images/powerScratch_1.jpg "FHT-7901 Diamant"
+
 (Check your unique code of your remote (this can be done by using a reciever and [this sketch], or ask your teacher/supplier))
 
 Go to:
