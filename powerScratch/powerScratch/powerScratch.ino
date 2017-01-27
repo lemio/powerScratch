@@ -1,7 +1,9 @@
 #include <RCSwitch.h>
 RCSwitch mySwitch = RCSwitch();
 #include <NewRemoteTransmitter.h>
-NewRemoteTransmitter transmitter(0, 4, 260, 3);;
+const byte SEND_PIN = 11;
+
+NewRemoteTransmitter transmitter(0, SEND_PIN, 260, 3);;
 const byte SET_TYPE = 'T';
 const byte SET_SWITCH = 'S';//83
 const byte SET_RAW = 'R';
@@ -20,18 +22,8 @@ byte serialBuffer[6];
 byte serialStatus = 0;
 unsigned long code = 0;
 void setup() {
-  pinMode(18, OUTPUT);
-  pinMode(21, OUTPUT);
-  pinMode(2, OUTPUT);
-  pinMode(3, OUTPUT);
-  pinMode(4, OUTPUT);
-  pinMode(13, OUTPUT);
-  digitalWrite(18, LOW);
-  digitalWrite(21, HIGH);
-  digitalWrite(2, LOW);
-  digitalWrite(3, HIGH);
   Serial.begin(57600);
-  mySwitch.enableTransmit(4);
+  mySwitch.enableTransmit(SEND_PIN);
 }
 
 void loop() {
