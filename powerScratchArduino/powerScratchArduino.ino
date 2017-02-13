@@ -1,7 +1,7 @@
 #include <RCSwitch.h>
 RCSwitch mySwitch = RCSwitch();
 #include <NewRemoteTransmitter.h>
-const byte SEND_PIN = 11;
+const byte SEND_PIN = 11;//USE THE MOSI PIN AS OUTPUT
 
 NewRemoteTransmitter transmitter(0, SEND_PIN, 260, 3);;
 const byte SET_TYPE = 'T';
