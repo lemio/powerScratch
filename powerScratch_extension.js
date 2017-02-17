@@ -227,7 +227,7 @@ Set the state of the reciever (on/off)
     }
     var descriptor = {
         blocks: [
-            [' ', 'Turn switch %m.alpha %m.state', 'setState', 1, 'on'],
+            [' ', 'Turn switch %m.alpha %m.state', 'setState', "A", 'on'],
             //[' ', 'Set remote of %m.type to code %n', 'setRemote', 'Diamant (FHT-7901)', 20231262]
         ],
         menus: {
