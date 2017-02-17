@@ -192,7 +192,7 @@ Set the 'code' and type of the remote
         }*/
         return 1;
     }
-    ext.setRemote = function(_type, code) {
+   /* ext.setRemote = function(_type, code) {
         type= _type;
         var type_code = stringToTypeCode(type);
         
@@ -203,7 +203,7 @@ Set the 'code' and type of the remote
         var pingOn = new Uint8Array([84, type_code, code_bytes[0], code_bytes[1], code_bytes[2], code_bytes[3], 10]);
         device.send(pingOn.buffer);
         console.log(pingOn);
-    }
+    }*/
 
 /*
 Set the state of the reciever (on/off)
@@ -232,7 +232,7 @@ Set the state of the reciever (on/off)
         ],
         menus: {
             state: ['on', 'off'],
-            alpha: ['A','B','C','D','E']
+            alpha: ['A','B','C','D','E'],
             type: ['Diamant (FHT-7901)','KaKu', 'Action', 'Blokker', 'Elro']
         },
         url: ''
