@@ -179,7 +179,7 @@ Set the 'code' and type of the remote
 
     }
     function stringToTypeCode(type_name){
-        switch (type) {
+        /*switch (type) {
             case "KaKu":
                 return 0;
                 break;
@@ -189,9 +189,8 @@ Set the 'code' and type of the remote
             case "Action":
                 return 2;
                 break;
-        }
-        console.log("error");
-        return 0;
+        }*/
+        return 1;
     }
     ext.setRemote = function(_type, code) {
         type= _type;
@@ -212,7 +211,7 @@ Set the state of the reciever (on/off)
     ext.setState = function(name, val) {
 
         stat = (val == "on") ? 1 : 0;
-        name = name - 1;
+        name = name.charCodeAt(0) - "A".charCodeAt(0);
         switch (type){
             case "Diamant (FHT-7901)":
                 console.log("set diamant ",name,stat)
@@ -228,11 +227,12 @@ Set the state of the reciever (on/off)
     }
     var descriptor = {
         blocks: [
-            [' ', 'Turn switch %n %m.state', 'setState', 1, 'on'],
-            [' ', 'Set remote of %m.type to code %n', 'setRemote', 'Diamant (FHT-7901)', 20231262]
+            [' ', 'Turn switch %m.alpha %m.state', 'setState', 1, 'on'],
+            //[' ', 'Set remote of %m.type to code %n', 'setRemote', 'Diamant (FHT-7901)', 20231262]
         ],
         menus: {
             state: ['on', 'off'],
+            alpha: ['A','B','C','D','E']
             type: ['Diamant (FHT-7901)','KaKu', 'Action', 'Blokker', 'Elro']
         },
         url: ''
