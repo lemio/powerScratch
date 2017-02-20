@@ -57,14 +57,15 @@ This is the code of the type that is being used
 
 
 #### Diamant recievers
-
-Aon = 16762196      FFC554  1100010101010100
-Aoff = 16762193     FFC551  1100010101010001
-Bon = 16765268      FFD154  1101000101010100
-Boff = 16765265     FFD151  1101000101010001
-Con = 16766036      FFD454  
-Coff = 16766033     FFD451
-Don = 16766228      FFD514
-Doff = 16766225     FFD511
-Eon = 16766276      FFD544
-Eoff = 16766273     FFD541
+|Code (dec)|Code HEX|
+|--|--|
+|Aon = 16762196    |  FFC554  |
+|Aoff = 16762193   |  FFC551  |
+|Bon = 16765268    |  FFD154  |
+|Boff = 16765265   |  FFD151  |
+|Con = 16766036    |  FFD454  |
+|Coff = 16766033   |  FFD451|
+|Don = 16766228    |  FFD514|
+|Doff = 16766225   |  FFD511|
+|Eon = 16766276    |  FFD544|
+|Eoff = 16766273   |  FFD541|
