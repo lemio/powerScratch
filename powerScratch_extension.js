@@ -235,7 +235,7 @@ Set the state of the reciever (on/off)
             alpha: ['A','B','C','D','E'],
             type: ['Diamant (FHT-7901)','KaKu', 'Action', 'Blokker', 'Elro']
         },
-        url: ''
+        url: 'http://www.codekids.nl/powerscratch/'
     };
     ScratchExtensions.register('powerScratch', descriptor, ext, {
         type: 'serial'
