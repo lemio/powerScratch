@@ -146,6 +146,7 @@ Set the 'code' and type of the remote
         device.send(pingOn.buffer);
     }
     function send_FHT_7901(adress,state){
+        console.log(" send_FHT_7901");
         lookup = [[ 16762193
                 ,   16762196],
                 [   16765265,
