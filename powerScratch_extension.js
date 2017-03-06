@@ -209,21 +209,21 @@ Set the 'code' and type of the remote
 Set the state of the reciever (on/off)
 */
     ext.setState = function(name, val) {
-
+/*
         stat = (val == "on") ? 1 : 0;
         name = name.charCodeAt(0) - "A".charCodeAt(0);
         switch (type){
-            case "Diamant (FHT-7901)":
+            case "Diamant (FHT-7901)":*/
                 console.log("set diamant ",name,stat)
                 send_FHT_7901(name,stat);
-            break;
+            /*break;
             case "KaKu":
                 console.log("set KAKU ",name,stat)
                 send_kaku(name,stat);
             break;
         }
         //'S','0'+name,'0'+stat,'\n'
-        
+        */
     }
     var descriptor = {
         blocks: [
