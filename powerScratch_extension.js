@@ -146,7 +146,6 @@ Set the 'code' and type of the remote
         device.send(pingOn.buffer);
     }
     function send_FHT_7901(adress,state){
-        console.log(" send_FHT_7901");
         lookup = [[ 16762193
                 ,   16762196],
                 [   16765265,
@@ -157,7 +156,10 @@ Set the 'code' and type of the remote
                 ,   16766228
                 ],[ 16766273
                 ,   16766276
-                ]];/*
+                ]];
+        console.log(" send_FHT_7901" , adress, state, lookup[adress][state]);
+
+                /*
         Aon = 16762196      FFC554  1100010101010100
         Aoff = 16762193     FFC551  1100010101010001
         Bon = 16765268      FFD154  1101000101010100
@@ -210,9 +212,10 @@ Set the 'code' and type of the remote
 Set the state of the reciever (on/off)
 */
     ext.setState = function(name, val) {
-/*
+
         stat = (val == "on") ? 1 : 0;
         name = name.charCodeAt(0) - "A".charCodeAt(0);
+        /*
         switch (type){
             case "Diamant (FHT-7901)":*/
                 console.log("set diamant ",name,stat)
