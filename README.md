@@ -24,17 +24,17 @@ And start playing, let us see where you come up with; controlling karts, vacuum 
 
 ### Pre-defined bytes
 
-| Function      | ASCII         | Dec   | Description |
-| ------------- |:-------------:| -----:|:---|
-| Set reciever  | 'S'           | 83    |Set the status of a certain switch|
+| Function      | ASCII         | Dec   | Description                               |
+| ------------- |:-------------:| -----:|:---                                       |
+| Set reciever  | 'S'           | 83    |Set the status of a certain switch         |
 | Set type      | 'T'           | 84    |Set the type and code to use when switching|
-| End message   | '\n'          | 84    |end a message|
+| End message   | '\n'          | 84    |end a message                              |
 
 ### Sending messages to recievers
 
 |SET_RECIEVER|CHANNEL|STATE|END_MESSAGE|
-|:---    |:---  |:---|:--         |
-|'S'     |'0'   |'1' |'\n'       |
+|:---        |:---   |:--- |:--        |
+|'S'         |'0'    |'1'  |'\n'       |
 
 #### Channel
 This is the channel on the remote usually (0,1,2,3)
