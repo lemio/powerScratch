@@ -4,6 +4,8 @@
 @website:               
 @source:                Based on: https://github.com/LLK/scratchx/blob/master/picoExtension.js
 
+This code sends a message to an arduino connected to a 433Mhz sender, to control a FHT_7901 reciever. 
+
 */
 (function(ext) {
     var device = null;
@@ -141,10 +143,6 @@ Function to convert one unsigned long to 4 bytes
 /*
 Set the 'code' and type of the remote
 */
-    function send_kaku(adress,state){
-        var pingOn = new Uint8Array([83, 48 + adress, 48 + state, 10]);
-        device.send(pingOn.buffer);
-    }
     function send_FHT_7901(adress,state){
         lookup = [[ 16762193
                 ,   16762196],
@@ -158,20 +156,12 @@ Set the 'code' and type of the remote
                 ,   16766276
                 ]];
         console.log(" send_FHT_7901" , adress, state, lookup[adress][state]);
-
-                /*
-        Aon = 16762196      FFC554  1100010101010100
-        Aoff = 16762193     FFC551  1100010101010001
-        Bon = 16765268      FFD154  1101000101010100
-        Boff = 16765265     FFD151  1101000101010001
-        Con = 16766036      FFD454  
-        Coff = 16766033     FFD451
-        Don = 16766228      FFD514
-        Doff = 16766225     FFD511
-        Eon = 16766276      FFD544
-        Eoff = 16766273     FFD541
-        */
-        sendRaw(lookup[adress][state],24)
+            if (lookup[adress][state] == undefined){
+                console.log("unable to send message to this adress, adress unavailable");
+            }else{
+                sendRaw(lookup[adress][state],24)
+            }
+        
     }
     sendRaw = function (code,bit){
         console.log("send",code)
@@ -181,58 +171,17 @@ Set the 'code' and type of the remote
         device.send(pingOn.buffer);
 
     }
-    function stringToTypeCode(type_name){
-        /*switch (type) {
-            case "KaKu":
-                return 0;
-                break;
-            case "Diamant (FHT-7901)":
-                return 1;
-                break;
-            case "Action":
-                return 2;
-                break;
-        }*/
-        return 1;
-    }
-   /* ext.setRemote = function(_type, code) {
-        type= _type;
-        var type_code = stringToTypeCode(type);
-        
-        //'T',type_code
-        code_bytes = new Uint8Array(toBytesInt32(code));
-        console.log(code_bytes[0]);
-        console.log(toUint(code_bytes[0], code_bytes[1], code_bytes[2], code_bytes[3]));
-        var pingOn = new Uint8Array([84, type_code, code_bytes[0], code_bytes[1], code_bytes[2], code_bytes[3], 10]);
-        device.send(pingOn.buffer);
-        console.log(pingOn);
-    }*/
-
-/*
-Set the state of the reciever (on/off)
-*/
+    
     ext.setState = function(name, val) {
 
         stat = (val == "on") ? 1 : 0;
         name = name.charCodeAt(0) - "A".charCodeAt(0);
-        /*
-        switch (type){
-            case "Diamant (FHT-7901)":*/
-                console.log("set diamant ",name,stat)
-                send_FHT_7901(name,stat);
-            /*break;
-            case "KaKu":
-                console.log("set KAKU ",name,stat)
-                send_kaku(name,stat);
-            break;
-        }
-        //'S','0'+name,'0'+stat,'\n'
-        */
+        console.log("set diamant ",name,stat);
+        send_FHT_7901(name,stat);
     }
     var descriptor = {
         blocks: [
-            [' ', 'Turn switch %m.alpha %m.state', 'setState', "A", 'on'],
-            //[' ', 'Set remote of %m.type to code %n', 'setRemote', 'Diamant (FHT-7901)', 20231262]
+            [' ', 'Turn switch %m.alpha %m.state', 'setState', "A", 'on']
         ],
         menus: {
             state: ['on', 'off'],
