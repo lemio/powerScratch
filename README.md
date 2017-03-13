@@ -1,5 +1,5 @@
 # Powerscratch
-A tool that gives the power of 230V to scratch
+A tool that gives the power of 230V to scratch, right now the system is made to only work with FHT-7901 modules.
 
 ## How to use powerscratch
 
