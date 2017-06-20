@@ -1,10 +1,10 @@
 /*
 @title PowerScratch:    Control high voltage devices using scratch.
 @author:                Geert Roumen
-@website:               
+@website:
 @source:                Based on: https://github.com/LLK/scratchx/blob/master/picoExtension.js
 
-This code sends a message to an arduino connected to a 433Mhz sender, to control a FHT_7901 reciever. 
+This code sends a message to an arduino connected to a 433Mhz sender, to control a FHT_7901 reciever.
 
 */
 (function(ext) {
@@ -13,6 +13,7 @@ This code sends a message to an arduino connected to a 433Mhz sender, to control
     var stat = false;
     var type = 0;
     var inputArray = [];
+    var current_channel = 0;
 /*
 To display the incoming string in the console
 
@@ -46,7 +47,7 @@ Function to append two buffer objects to one buffer
 /*
 Function that executes when the plugin is loaded and tries to connect to the powerScratch
 */
-    // 
+    //
     var potentialDevices = [];
     ext._deviceConnected = function(dev) {
         potentialDevices[0] = (dev);
@@ -77,13 +78,13 @@ Function that executes when the plugin is loaded and tries to connect to the pow
                 //Set a recieve handler
                 console.log("RecieveHandler")
                 rawData = new Uint8Array(data);
-                
+
                 processData();
             });
             /*
             poller = setInterval(function() {
-                
-                
+
+
             }, 50);*/
         });
     };
@@ -143,8 +144,42 @@ Function to convert one unsigned long to 4 bytes
 /*
 Set the 'code' and type of the remote
 */
-    function send_FHT_7901(adress,state){
-        lookup = [[ 16762193
+/*
+ SETTING | CHANNEL | ON/OFF
+F    F    D/C  4/5  5    4/1
+1111 1111 1101 0100 0101 0100
+0111 1111 1101 0100 0101 0100
+0111 1111 1101 0100 0101 0100
+0111 1111 1100 0101 0101 0100
+
+011111111100010101010100
+011111111100010101010001
+*/
+/*
+Setting is the physical DIP switch in the back
+Channel is the channel A-E on the remote (the physcial DIP switch in the receiver)
+State is a boolean value (if the revceiver should be on or off)
+*/
+/*
+function makeCode(setting,channel,state){
+  if (state == 1){
+    stateByte = 0x54;
+  }else{
+    stateByte = 0x51;
+  }
+  if (channel == 0){
+    channelByte = 0xD4;
+  }
+  if (channel == 1){
+    channelByte = 0xC5;
+  }
+  if (setting == )
+  settingByte = 0xFF
+  0x010000*settingByte+0x000100*channelByte+0x000001*stateByte
+}*/
+    function send_FHT_7901(channel,adress,state){
+
+        lookup = [[[ 16762193
                 ,   16762196],
                 [   16765265,
                     16765268
@@ -154,14 +189,22 @@ Set the 'code' and type of the remote
                 ,   16766228
                 ],[ 16766273
                 ,   16766276
-                ]];
-        console.log(" send_FHT_7901" , adress, state, lookup[adress][state]);
-            if (lookup[adress][state] == undefined){
+              ]],
+[//	on		off
+/*A*/	[8373588,	8373585],
+/*B*/	[8376660,	8376657],
+/*C*/	[8377428,	8377425],
+/*D*/	[8377620,	8377617],
+/*E*/	[8377668,	8377665]
+]];
+
+        console.log(" send_FHT_7901" , channel ,adress, state, lookup[channel][adress][state]);
+            if (lookup[channel][adress][state] == undefined){
                 console.log("unable to send message to this adress, adress unavailable");
             }else{
-                sendRaw(lookup[adress][state],24)
+                sendRaw(lookup[channel][adress][state],24)
             }
-        
+
     }
     sendRaw = function (code,bit){
         console.log("send",code)
@@ -171,21 +214,25 @@ Set the 'code' and type of the remote
         device.send(pingOn.buffer);
 
     }
-    
+    ext.setChannel = function (channel){
+      current_channel = Number(channel.charAt(7));
+    }
     ext.setState = function(name, val) {
 
         stat = (val == "on") ? 1 : 0;
         name = name.charCodeAt(0) - "A".charCodeAt(0);
         console.log("set diamant ",name,stat);
-        send_FHT_7901(name,stat);
+        send_FHT_7901(current_channel,name,stat);
     }
     var descriptor = {
         blocks: [
-            [' ', 'Turn switch %m.alpha %m.state', 'setState', "A", 'on']
+            [' ', 'Turn switch %m.alpha %m.state', 'setState', "A", 'on'],
+            [' ', 'Set channel to %m.channel', 'setChannel', "CHANNEL0"]
         ],
         menus: {
             state: ['on', 'off'],
             alpha: ['A','B','C','D','E'],
+            channel: ["CHANNEL0","CHANNEL1"],
             type: ['Diamant (FHT-7901)','KaKu', 'Action', 'Blokker', 'Elro']
         },
         url: 'http://www.codekids.nl/powerscratch/'
