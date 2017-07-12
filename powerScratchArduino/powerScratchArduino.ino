@@ -2,7 +2,7 @@
 RCSwitch mySwitch = RCSwitch();
 #include <NewRemoteTransmitter.h>
 const byte SEND_PIN = 11;//USE THE MOSI PIN AS OUTPUT
-
+const byte LED_PIN = 13;
 NewRemoteTransmitter transmitter(0, SEND_PIN, 260, 3);;
 const byte SET_TYPE = 'T';
 const byte SET_SWITCH = 'S';//83
@@ -24,11 +24,17 @@ unsigned long code = 0;
 void setup() {
   Serial.begin(57600);
   mySwitch.enableTransmit(SEND_PIN);
+  pinMode(LED_PIN, OUTPUT);
 }
 
 void loop() {
-
+  
   /*
+  mySwitch.send(8376660,24);
+  delay(1000);
+  mySwitch.send(8376657,24);
+  delay(1000);
+  
      5522773
      5522772
   */
@@ -50,7 +56,7 @@ void loop() {
 
           //code = *(2^24) + serialBuffer[2]*(2^16) + serialBuffer[3]*(2^8) + serialBuffer[4];
           if (serialBuffer[0] == TYPE_KAKU) {
-            transmitter.setAdress(code);
+           // transmitter.setAdress(code);
             Serial.print("KAKU with code [");
             Serial.print(serialBuffer[1]);
             Serial.print(",");
@@ -78,7 +84,7 @@ void loop() {
           raw += serialBuffer[2] * pow(2, 16);
           raw += serialBuffer[3] * pow(2, 8);
           raw += serialBuffer[4];
-
+          digitalWrite(LED_PIN,LOW);
           //code = *(2^24) + serialBuffer[2]*(2^16) + serialBuffer[3]*(2^8) + serialBuffer[4];
           mySwitch.send(raw, serialBuffer[0]);
           Serial.print("send RAW with code [");
@@ -91,6 +97,7 @@ void loop() {
           Serial.print(serialBuffer[4]);
           Serial.print("] ");
           Serial.print(raw);
+          digitalWrite(LED_PIN,HIGH);
       }
         break;
         case RECIEVING_SWITCH:
